@@ -1,0 +1,17 @@
+{
+  "name": "outlet-manager-backend",
+  "version": "1.0.0",
+  "description": "Back-End Server for Outlet Manager App",
+  "main": "App.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Guruh Edi Purwanto",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5"
+  }
+}
