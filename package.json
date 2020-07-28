@@ -4,7 +4,7 @@
   "description": "Back-End Server for Outlet Manager App",
   "main": "App.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon App.js"
   },
   "author": "Guruh Edi Purwanto",
   "license": "ISC",
@@ -13,5 +13,12 @@
     "eslint-config-prettier": "^6.11.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5"
-  }
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.0",
+    "morgan": "^1.10.0"
+  },
+  "type": "module"
 }
