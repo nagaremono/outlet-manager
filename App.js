@@ -3,6 +3,11 @@ import logger from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import schema from './graphql/schema.js';
+import root from './graphql/root.js';
+import pkg from 'express-graphql';
+
+const { graphqlHTTP } = pkg;
 
 dotenv.config();
 
@@ -19,6 +24,15 @@ db.once('open', function () {
 });
 
 const app = express();
+
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true,
+  })
+);
 
 app.use(cors());
 app.use(logger('dev'));
