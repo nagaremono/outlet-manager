@@ -10,6 +10,7 @@ import newUserRoot from './graphql/newUserRoot.js';
 import pkg from 'express-graphql';
 import './auth/passport.js';
 import passport from 'passport';
+import login from './auth/login.js';
 
 const { graphqlHTTP } = pkg;
 
@@ -33,6 +34,8 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(passport.initialize());
 
+app.post('/login', login);
+
 app.use(
   '/newuser',
   graphqlHTTP({
@@ -44,6 +47,7 @@ app.use(
 
 app.use(
   '/graphql',
+  passport.authenticate('jwt', { session: false }),
   graphqlHTTP({
     schema: protectedSchema,
     rootValue: protectedRoot,
