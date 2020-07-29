@@ -1,8 +1,14 @@
 import Plans from '../mongoModels/Plans.js';
 import Transaction from '../mongoModels/Transaction.js';
 import Customer from '../mongoModels/Customer.js';
+import User from '../mongoModels/User.js';
 
 export default {
+  user: async ({ id }) => {
+    const user = await User.findById(id).exec();
+
+    return user;
+  },
   plans: async () => {
     const plans = await Plans.find().exec();
 

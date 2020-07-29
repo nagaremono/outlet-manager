@@ -3,9 +3,13 @@ import logger from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
-import schema from './graphql/schema.js';
-import root from './graphql/root.js';
+import protectedSchema from './graphql/schema.js';
+import protectedRoot from './graphql/root.js';
+import newUserSchema from './graphql/newUserSchema.js';
+import newUserRoot from './graphql/newUserRoot.js';
 import pkg from 'express-graphql';
+import './auth/passport.js';
+import passport from 'passport';
 
 const { graphqlHTTP } = pkg;
 
@@ -25,17 +29,27 @@ db.once('open', function () {
 
 const app = express();
 
+app.use(cors());
+app.use(logger('dev'));
+app.use(passport.initialize());
+
 app.use(
-  '/graphql',
+  '/newuser',
   graphqlHTTP({
-    schema: schema,
-    rootValue: root,
+    schema: newUserSchema,
+    rootValue: newUserRoot,
     graphiql: true,
   })
 );
 
-app.use(cors());
-app.use(logger('dev'));
+app.use(
+  '/graphql',
+  graphqlHTTP({
+    schema: protectedSchema,
+    rootValue: protectedRoot,
+    graphiql: true,
+  })
+);
 
 app.listen(process.env.PORT, () => {
   console.log('App is now listening on port 4000');
