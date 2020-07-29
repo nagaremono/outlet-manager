@@ -1,10 +1,21 @@
 import Plans from '../mongoModels/Plans.js';
+import Transaction from '../mongoModels/Transaction.js';
+import Customer from '../mongoModels/Customer.js';
 
 export default {
   plans: async () => {
     const plans = await Plans.find().exec();
 
     return plans;
+  },
+
+  transactions: async () => {
+    const transactions = await Transaction.find()
+      .populate('Plans')
+      .populate('Customer')
+      .exec();
+
+    return transactions;
   },
 
   createPlan: async ({ input }) => {
@@ -33,5 +44,29 @@ export default {
     const deletedPlan = await Plans.findByIdAndDelete(id).exec();
 
     return deletedPlan;
+  },
+
+  createTransaction: async ({ input }) => {
+    const selectedPlan = await Plans.findOne({ name: input.plan }).exec();
+
+    const newCustomer = await new Customer({
+      name: input.customerName,
+      number: input.customerNumber,
+    }).save();
+
+    const newTransaction = await new Transaction({
+      plan: selectedPlan.id,
+      customer: newCustomer.id,
+    }).save();
+
+    return newTransaction;
+  },
+
+  deleteTransaction: async ({ id }) => {
+    const deletedTransaction = await (
+      await Transaction.findByIdAndDelete(id)
+    ).execPopulate();
+
+    return deletedTransaction;
   },
 };

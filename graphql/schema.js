@@ -11,9 +11,12 @@ const schema = buildSchema(`
   }
 
   type Mutation {
-    createPlan(input: PlanInput): Plan
-    updatePlan(id: String, input: PlanInput): Plan
-    deletePlan(id: String): Plan
+    createPlan(input: PlanInput): Plan!
+    updatePlan(id: String, input: PlanInput): Plan!
+    deletePlan(id: String): Plan!
+
+    createTransaction(input: TransactionInput): Transaction!
+    deleteTransaction(id: String): Transaction!
   }
 
   type Plan {
@@ -47,6 +50,12 @@ const schema = buildSchema(`
     provider: String!
     price: Int!
     details: String!
+  }
+
+  input TransactionInput {
+    plan: String
+    customerName: String
+    customerNumber: String
   }
 `);
 
